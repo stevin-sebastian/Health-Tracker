@@ -1,4 +1,4 @@
-# Life-Tracker
+# Health-Tracker
  Tracks diet routine information and consistency.
 
 Made with ReactJS for the front-end using Redux for application state management.
