@@ -1,0 +1,48 @@
+{
+  "name": "Life-Tracker",
+  "version": "1.0.0",
+  "description": "Life-Tracker Node.js Backend",
+  "main": "server.js",
+  "scripts": {
+    "build": "cd client && npm run build",
+    "start": "node server/server.js",
+    "dev": "env-cmd ./config/dev.env nodemon",
+    "server": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevin-sebastian/Life-Tracker.git"
+  },
+  "author": "Stevin Sebastian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stevin-sebastian/Life-Tracker/issues"
+  },
+  "homepage": "https://github.com/stevin-sebastian/Life-Tracker#readme",
+  "dependencies": {
+    "accesscontrol": "^2.2.1",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "create-react-app": "^5.0.0",
+    "devextreme": "^21.2.4",
+    "devextreme-react": "^21.2.4",
+    "dotenv": "^14.2.0",
+    "env-cmd": "^10.1.0",
+    "express": "^4.17.2",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb-memory-server": "^8.2.0",
+    "mongoose": "^6.1.7",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "node-mocks-http": "^1.11.0",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "path": "^0.12.7",
+    "validator": "^13.7.0"
+  }
+}
