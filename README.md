@@ -2,9 +2,13 @@
  Tracks BMI and Weight information.
  
  Upcoming:
+ 
  -Tracks diet routine information and timing consistency.
+ 
  -Tracks and analyses calorie intake per day.
+ 
  -Tracks workout routine.
+ 
 
 Made with ReactJS for the front-end using Redux for application state management.
 NodeJS and ExpressJS is used for the backend.
