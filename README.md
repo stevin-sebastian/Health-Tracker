@@ -20,5 +20,7 @@ To view, go to Active Environments in this repository - (health-tracker-deploy)
 Or visit this link, https://health-tracker-deploy.herokuapp.com/
 
 Sample login credentials:
+
 email: john.adams@gmail.com
+
 password: 123123
