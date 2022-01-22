@@ -54,16 +54,16 @@ exports.getFilteredDiets = async (req, res, next) => {
 
      }
    });
-  var features;
+  var diets;
   if(conditions.length == 0){
-     features = await Feature.find({});
+     diets = await Diet.find({});
   }
   else {
-     features = await Feature.find({$and: conditions});
+     diets = await Diet.find({$and: conditions});
   }
 
   res.status(200).json({
-    data: features
+    data: diets
   });
 }
 
@@ -74,7 +74,7 @@ exports.updateDiet = async (req, res, next) => {
 
    const dietBody = req.body;
 
-   await Diet.findByIdAndUpdate(id_upd, userBody);
+   await Diet.findByIdAndUpdate(id_upd, dietBody);
    const diet = await Diet.findById(id_upd);
 
    res.status(200).json({

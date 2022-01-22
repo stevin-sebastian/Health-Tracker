@@ -26,12 +26,16 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import ExitToApp from '@material-ui/icons/ExitToApp';
+import AddIcon from '@material-ui/icons/Add';
 import { ListItems } from '../listitem';
 import { logoutUser } from "../../../actions/authActions";
-import { getFilteredUsers, getAllUsers, getUser, updateUser, deleteUser} from "../../../actions/userActions";
+import { getFilteredUsers, updateUser} from "../../../actions/userActions";
 import { getAllBMIs, getFilteredBMIs, registerBMI, updateBMI, deleteBMI} from "../../../actions/bmiActions";
+import BMI_spline from "./BMI_spline"
+import Weight_spline from "./Weight_spline"
+import Popup from "../../elements/Popup"
+import RegisterForm from "./registerForm"
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,6 +62,10 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 };
+
+function getBMI (props) {
+    return props.getAllBMIs({email:props.auth.user.email, auth:props.auth.isAuthenticed}, props.history)
+}
 
 function a11yProps(index) {
   return {
@@ -87,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+  },
+  divider: {
+    background: "#ffffff"
   },
   toolbarIcon: {
     display: 'flex',
@@ -119,6 +130,11 @@ const useStyles = makeStyles((theme) => ({
   title: {
     margin:'10px 0',
     flexGrow: 2,
+  },
+  title2: {
+    margin:'15px 10px 10px 15px',
+    flexGrow: 2,
+    color: "#ffffff"
   },
   drawerPaper: {
     position: 'relative',
@@ -164,7 +180,10 @@ const useStyles = makeStyles((theme) => ({
   },
   btnstyle: {
     margin:'8px 0',
-    backgroundColor: '#666bff'}
+    backgroundColor: '#666bff'},
+  btnstyle1: {
+    margin:'8px 0',
+    backgroundColor: '#ffffff'}
 }));
 
 function onLogoutClick(e) {
@@ -172,27 +191,64 @@ function onLogoutClick(e) {
   this.props.logoutUser();
 }
 
-const DashboardPage =  (props) => {
+const BMIPage =  (props) => {
+
 
   const [value, setValue] = React.useState(0);
-  const [company, setCompany] = React.useState("");
-  const [project, setProject] = React.useState("");
-  const [allProjects, setAllProjects] = React.useState([]);
-  const [list, setList] = React.useState([]);
-  const [pList, setPList] = React.useState([]);
-  const [state, setState] = React.useState({
-      checkedA: true,
-      checkedB: true,
-    });
+  const [openRegPopup, setOpenRegPopup] = React.useState(false);
+  const [weightStatus, setWeightStatus] = React.useState();
+  const [bmiStatus, setBMIStatus] = React.useState();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  React.useEffect(async () => {
+    const d = await getBMI(props);
+    setWeightStatus(d.data[d.data.length-1].weight);
+    setBMIStatus(d.data[d.data.length-1].bmi);
+  },[]);
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
+  const addNewRecord = (data, resetForm) => {
+
+    var newBmi = (data.weight/(props.auth.user.height*props.auth.user.height)).toFixed(2);
+    newBmi = parseFloat(newBmi);
+    const input = {
+      params: {
+        email: props.auth.user.email,
+        auth: props.auth.isAuthenticated
+      },
+      body: data
+    };
+    const input2 = {
+      params: {
+        email: props.auth.user.email,
+        auth: props.auth.isAuthenticated,
+        userID: props.auth.user.id
+      },
+      body: {
+        currentBMI: newBmi,
+        currentWeight: data.weight
+      }
+    };
+    console.log(input);
+    props.registerBMI(input, props.history);
+    props.updateUser(input2, props.history);
+    setWeightStatus(data.weight);
+    setBMIStatus(newBmi);
+
+    resetForm();
+    setOpenRegPopup(false);
+  }
+
+  const openInRegPopup = item => {
+
+      setOpenRegPopup(true);
+  }
 
   function onLogoutClick(e) {
     e.preventDefault();
@@ -201,7 +257,7 @@ const DashboardPage =  (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  console.log(props);
+  var xs = 2;
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
 
@@ -250,86 +306,55 @@ const DashboardPage =  (props) => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-        <Paper className={classes.paper}>
-          <FormControl variant="outlined">
-            <InputLabel htmlFor="outlined-company-native-simple">Company</InputLabel>
-            <Select
-              native
-              value={state.age}
-
-              label="Company"
-              inputProps={{
-                name: 'company',
-                id: 'outlined-company-native-simple',
-              }}
-            >{list.map(item =><option key={item.key} value={item.item}>{item.item}</option>)}
-            </Select>
-          </FormControl>
-            <Grid container className={classes.grid}>
-              <Grid item xs={5}>
-
+          <Paper style={{ margin: "0px 0px 16px 0px", backgroundColor: "#003580"}} >
+            <Grid container>
+              <Grid item xs={2} container justifyContent="center">
+                <Typography component="h1" variant="h5"  noWrap className={classes.title2}>
+                  TODAY:
+                </Typography>
+                <Divider orientation="vertical" flexItem className={classes.divider} />
               </Grid>
-              <Grid item xs={2}></Grid>
-              <Grid item xs={5}>
-
+              <Grid item xs={4} container justifyContent="center">
+                <Typography component="h1" variant="h6"  noWrap className={classes.title2}>
+                  Weight: {weightStatus} kg
+                </Typography>
+                <Divider orientation="vertical" flexItem className={classes.divider}/>
               </Grid>
-            </Grid>
-
-            <Grid container  className={classes.grid}>
-              <Grid item xs={3}></Grid>
-              <Grid item xs={6}>
-
+              <Grid item xs={5} container justifyContent="center">
+                <Typography component="h1" variant="h6"  noWrap className={classes.title2}>
+                  BMI: {bmiStatus}
+                </Typography>
+                <Divider orientation="vertical" flexItem className={classes.divider} />
               </Grid>
-              <Grid item xs={3}></Grid>
-            </Grid>
-        </Paper>
 
-        <Paper className={classes.paper}>
-          <FormControl variant="outlined">
-            <InputLabel htmlFor="outlined-project-native-simple">Project</InputLabel>
-            <Select
-              native
-              value={state.age}
-
-              label="Project"
-              inputProps={{
-                name: 'project',
-                id: 'outlined-project-native-simple',
-              }}
-            >{pList.map(item =><option key={item.key} value={item.item}>{item.item}</option>)}
-            </Select>
-          </FormControl>
-            <Grid container className={classes.grid}>
-              <Grid item xs={5}>
-
-              </Grid>
-              <Grid item xs={2}></Grid>
-              <Grid item xs={5}>
-
+              <Grid item xs={1} container justifyContent="center">
+                <IconButton color="inherit" className={classes.btnstyle1} onClick={openInRegPopup}>
+                  <AddIcon/>
+                </IconButton>
               </Grid>
             </Grid>
-            <Grid container className={classes.grid}>
-              <Grid item xs={5}>
-              </Grid>
-              <Grid item xs={2}></Grid>
-              <Grid item xs={5}>
-              </Grid>
-            </Grid>
-        </Paper>
+          </Paper>
 
-
+          <BMI_spline {...props} bmiStatus={bmiStatus}/>
+          <Weight_spline {...props} weightStatus={weightStatus} />
 
           <Box pt={4}>
             <Copyright />
           </Box>
         </Container>
-
+        <Popup
+          title="Add new Measurement"
+          openPopup={openRegPopup}
+          setOpenPopup={setOpenRegPopup}
+        >
+          <RegisterForm {...props} addNewRecord={addNewRecord}/>
+        </Popup>
       </main>
     </div>
   );
 }
 
-DashboardPage.propTypes = {
+BMIPage.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
@@ -338,6 +363,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { getFilteredUsers, logoutUser, getUser, getAllUsers, updateUser, deleteUser,
-     getAllBMIs, getFilteredBMIs, updateBMI, deleteBMI, registerBMI}
-)(withRouter(DashboardPage));
+  { getFilteredUsers, updateUser, logoutUser, getAllBMIs, getFilteredBMIs, updateBMI, deleteBMI, registerBMI}
+)(withRouter(BMIPage));

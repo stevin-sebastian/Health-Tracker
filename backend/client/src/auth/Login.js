@@ -10,7 +10,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
 import { loginUser } from "../actions/authActions";
 import classnames from "classnames";
@@ -23,7 +23,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link to color="inherit" href="https://material-ui.com/">
         Life Tracker
       </Link>{' '}
       {new Date().getFullYear()}
@@ -51,13 +51,13 @@ class Login extends Component {
   componentDidMount() {
   // If logged in and user navigates to Login page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/bmi");
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/bmi");
     }
 
     if (nextProps.errors) {
@@ -97,7 +97,7 @@ class Login extends Component {
   }
 
   render() {
-    const theme = createMuiTheme();
+    const theme = createTheme();
     const { errors } = this.state;
     const root =  {
       height: '100vh',

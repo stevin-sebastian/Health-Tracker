@@ -127,6 +127,10 @@ exports.login = async(req, res, next) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          initialWeight: user.initialWeight,
+          currentBMI: user.currentBMI,
+          currentWeight: user.currentWeight,
+          height: user.height,
           tableData: {}
     };
 

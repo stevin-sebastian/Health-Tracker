@@ -18,6 +18,20 @@ const userModel = new mongoose.Schema({
     type: String,
     required: true
   },
+  height: {
+    type: Number,
+    required: true
+  },
+  initialWeight: {
+    type: Number,
+    required: true
+  },
+  currentWeight: {
+    type: Number
+  },
+  currentBMI: {
+    type: Number
+  },
   dateCreated: {
     type: Date,
     default: Date.now

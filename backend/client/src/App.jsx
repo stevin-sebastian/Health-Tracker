@@ -9,6 +9,8 @@ import store from "./store";
 import Login from "./auth/Login"
 import PrivateRoute from "./privateRoute/PrivateRoute";
 import Dashboard from "./components/sections/dashboard/DashboardPage";
+import Bmi from "./components/sections/bmi/BMIPage";
+
 
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -39,6 +41,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/BMI" component={Bmi} />
             </Switch>
           </div>
         </Router>
