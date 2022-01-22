@@ -12,7 +12,8 @@ MongoDB is used for the database.
 
 Application is deployed using Heroku and is linked to this repository.
 To view, go to Active Environments in this repository - (health-tracker-deploy) 
-Or visit this link, health-tracker-deploy.herokuapp.com/
+
+Or visit this link, https://health-tracker-deploy.herokuapp.com/
 
 Sample login credentials:
 email: john.adams@gmail.com
