@@ -10,7 +10,7 @@ import {
 export const registerUser = (userData, history) => dispatch => {
   console.log(userData);
   axios
-    .post("/api/signup", userData)
+    .post("http://localhost:4000/api/signup", userData)
     .then(res => {
       console.log(res.data);
       history.push("/login"
@@ -25,7 +25,7 @@ export const registerUser = (userData, history) => dispatch => {
 // Login - get user token
 export const loginUser = userData => dispatch => {
   axios
-    .post("/api/login", userData)
+    .post("http://localhost:4000/api/login", userData)
     .then(res => {
       // Save to localStorage
       // Set token to localStorage
