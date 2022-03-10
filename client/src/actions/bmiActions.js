@@ -14,7 +14,7 @@ export const get_all = data => {
 
 export const updateBMI = (userData, history) => dispatch => {
   axios
-    .post("http://localhost:4000/api/updBMI", userData.body, {params:userData.params})
+    .post("/api/updBMI", userData.body, {params:userData.params})
     .then(res => {
       console.log("updated");
     })
@@ -29,7 +29,7 @@ export const updateBMI = (userData, history) => dispatch => {
 export const deleteBMI = (userData, history) => dispatch => {
   console.log(userData);
   axios
-    .delete("http://localhost:4000/api/delBMI", {params:userData})
+    .delete("/api/delBMI", {params:userData})
     .then(res => history.push("/BMI"))
     .catch(err =>
       dispatch({
@@ -58,7 +58,7 @@ export const getAllBMIs = (userData, history) => {
 export const getFilteredBMIs = (userData, history) => {
   return function (dispatch) {
     return axios
-    .get("http://localhost:4000/api/getFilteredBMIs", {params:userData})
+    .get("/api/getFilteredBMIs", {params:userData})
     .then(res => {
       return res.data;
     })
@@ -75,7 +75,7 @@ export const getFilteredBMIs = (userData, history) => {
 export const registerBMI = (userData, history) => dispatch => {
   console.log(userData);
   axios
-    .post("http://localhost:4000/api/newBMI", userData.body, {params:userData.params})
+    .post("/api/newBMI", userData.body, {params:userData.params})
     .then(res => {
       console.log(res.data);
       //history.push("/features"

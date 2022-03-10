@@ -14,7 +14,7 @@ export const get_all = data => {
 
 export const updateUser = (userData, history) => dispatch => {
   axios
-    .post("http://localhost:4000/api/updateUser", userData.body, {params:userData.params})
+    .post("/api/updateUser", userData.body, {params:userData.params})
     .then(res => {
       console.log("updated");
     })
@@ -29,7 +29,7 @@ export const updateUser = (userData, history) => dispatch => {
 export const deleteUser = (userData, history) => dispatch => {
   console.log(userData);
   axios
-    .delete("http://localhost:4000/api/deleteUser", {params:userData})
+    .delete("/api/deleteUser", {params:userData})
     .then(res => history.push("/users"))
     .catch(err =>
       dispatch({
@@ -42,7 +42,7 @@ export const deleteUser = (userData, history) => dispatch => {
 export const getAllUsers = (userData, history) => {
   return function (dispatch) {
     return axios
-    .get("http://localhost:4000/api/getAllUsers", {params:userData})
+    .get("/api/getAllUsers", {params:userData})
     .then(res => {
       return res.data;
     })
@@ -58,7 +58,7 @@ export const getAllUsers = (userData, history) => {
 export const getFilteredUsers = (userData, history) => {
   return function (dispatch) {
     return axios
-    .get("http://localhost:4000/api/getFilteredUsers", {params:userData})
+    .get("/api/getFilteredUsers", {params:userData})
     .then(res => {
       return res.data;
     })
@@ -75,7 +75,7 @@ export const getUser = (userData, history) => {
   return function (dispatch) {
     console.log(userData);
     return axios
-    .get("http://localhost:4000/api/getUser", {params:userData})
+    .get("/api/getUser", {params:userData})
     .then(res => {
       return res.data;
     })
