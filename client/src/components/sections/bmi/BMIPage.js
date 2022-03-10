@@ -314,13 +314,19 @@ const BMIPage =  (props) => {
                 </Typography>
                 <Divider orientation="vertical" flexItem className={classes.divider} />
               </Grid>
-              <Grid item xs={4} container justifyContent="center">
+              <Grid item xs={3} container justifyContent="center">
                 <Typography component="h1" variant="h6"  noWrap className={classes.title2}>
                   Weight: {weightStatus} kg
                 </Typography>
                 <Divider orientation="vertical" flexItem className={classes.divider}/>
               </Grid>
-              <Grid item xs={5} container justifyContent="center">
+              <Grid item xs={3} container justifyContent="center">
+                <Typography component="h1" variant="h6"  noWrap className={classes.title2}>
+                  Height: {props.auth.user.height} kg
+                </Typography>
+                <Divider orientation="vertical" flexItem className={classes.divider}/>
+              </Grid>
+              <Grid item xs={3} container justifyContent="center">
                 <Typography component="h1" variant="h6"  noWrap className={classes.title2}>
                   BMI: {bmiStatus}
                 </Typography>
