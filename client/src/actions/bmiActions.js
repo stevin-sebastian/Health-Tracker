@@ -42,7 +42,7 @@ export const deleteBMI = (userData, history) => dispatch => {
 export const getAllBMIs = (userData, history) => {
   return function (dispatch) {
     return axios
-    .get("/api/getAllBMIs", {params:userData})
+    .get("http://localhost:4000/api/getAllBMIs", {params:userData})
     .then(res => {
       return res.data;
     })
